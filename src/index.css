@@ -1,0 +1,29 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
+#root {
+  display: flex;
+  justify-content: center;
+}
+
+main {
+  width: 100vw;
+  height: 100vh;
+  background-color: #F5F7FB;
+  background-image: url(/blob-yellow.png), url(/blob-blue.png);
+  background-repeat: no-repeat;
+  background-position: top right, bottom left;
+  background-size: 15vmax 15vmax, 15vmax 10vmax;
+}
+
+.welcome-view {
+  background-size: 25vmax 25vmax, 25vmax 15vmax;
+}
+
+/* max-width: 800px; */
