@@ -11,7 +11,7 @@ function App() {
 
   return (
     <main className={welcomeView ? "welcome-view" : ""}>
-      {welcomeView ? <Home handleChange={handleChange} /> : <Game />}
+      {welcomeView ? <Home handleViewChange={handleChange} /> : <Game />}
     </main>
   )
 }
