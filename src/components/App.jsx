@@ -3,15 +3,15 @@ import Home from "./Home"
 import Game from "./Game"
 
 function App() {
-  const [welcomeView, setWelcomeView] = useState(true)
+  const [homeView, setHomeView] = useState(true)
 
   function handleChange() {
-    setWelcomeView(prevView => !prevView)
+    setHomeView(prevView => !prevView)
   }
 
   return (
-    <main className={welcomeView ? "welcome-view" : ""}>
-      {welcomeView ? <Home handleViewChange={handleChange} /> : <Game />}
+    <main className={homeView ? "home-view" : ""}>
+      {homeView ? <Home handleViewChange={handleChange} /> : <Game />}
     </main>
   )
 }

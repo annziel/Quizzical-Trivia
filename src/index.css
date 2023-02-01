@@ -37,28 +37,30 @@ main {
   background-position: top right, bottom left;
   background-size: 15vmax 15vmax, 15vmax 10vmax;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
 }
 
-.welcome-view {
+.home-view {
   background-size: 25vmax 25vmax, 25vmax 15vmax;
   text-align: center;
 }
 
 .text-container {
   max-width: 800px;
+  height: 100vh;
 }
 
 .home {
-  align-self: flex-start;
+  justify-self: flex-start;
   margin-top: 25vh;
 }
 
 .game-title {
   font-family: 'Karla', sans-serif;
   font-weight: bold;
-  font-size: clamp(2rem, 15vh, 60px);
+  font-size: clamp(2rem, 15vh, 3.75rem);
   line-height: 1.2;
   margin-bottom: clamp(0.5rem, 2vh, 1rem);
 }
@@ -72,29 +74,62 @@ main {
   margin: 0 0 clamp(40px, 10vh, 60px) 0;
 }
 
-button {
-  font-family: 'Inter', sans-serif;
-  background: #4D5B9E;
-  border: none;
-  cursor: pointer;
+.game {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
 }
 
-button:focus {
-  outline: none;
+.game-summary {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.game-summary-txt {
+  font-family: 'Inter';
+  font-weight: 600;
+  font-size: clamp(0.8rem, 3.5vh, 2rem);
+  line-height: 1.2;
+  text-align: center;
+  margin-right: clamp(1.25rem, 6vh, 1.75rem)
+}
+
+button {
+  font-family: 'Inter', sans-serif;
+  border: none;
+  cursor: pointer;
+  line-height: 1.2;
 }
 
 button:hover,
 button:focus,
 button:active {
+  outline: none;
+}
+
+.main-btn {
+  background: #4D5B9E;
+  color: #F5F7FB;
+}
+
+.main-btn:hover,
+.main-btn:active {
   box-shadow: inset 0px 0px 10px #323A65;
 }
 
 .start-game-btn {
   border-radius: 15px;
   padding: 1rem 4rem;
-  color: white;
   font-weight: 400;
-  font-size: clamp(1rem, 2.5vh, 1.5rem);
-  line-height: 1.2;
+  font-size: clamp(1rem, 3.5vh, 1.8rem);
   letter-spacing: 1px;
+}
+
+.game-summary-btn {
+  border-radius: 10px;
+  padding: 0.6rem 2rem;
+  font-weight: 500;
+  font-size: clamp(0.725rem, 3.2vh, 1.6rem);
 }
