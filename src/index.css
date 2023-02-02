@@ -45,16 +45,16 @@ main {
 .home-view {
   background-size: 25vmax 25vmax, 25vmax 15vmax;
   text-align: center;
+  justify-content: flex-start;
+  padding-top: 20vh
 }
 
 .text-container {
   max-width: 800px;
-  margin: 1.5rem 0;
-}
-
-.home {
-  justify-self: flex-start;
-  margin-top: 25vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin: 1rem 1.5rem 1.5rem;
 }
 
 .game-title {
@@ -77,8 +77,14 @@ main {
 .game {
   display: flex;
   flex-direction: column;
-  justify-content: space-evenly;
+  justify-content: space-between;
   align-items: center;
+}
+
+.question-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .question-box {
@@ -92,11 +98,14 @@ main {
   font-weight: bold;
   font-size: clamp(1rem, 3.2vh, 1.2rem);
   line-height: 1.2;
-  margin: clamp(1rem, 3vh, 1.5rem) 0;
+  margin: 1rem 0;
 }
 
 .answers-container {
   display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: center;
   gap: 0.81rem;
   padding-bottom: clamp(1rem, 3.5vh, 1.5rem);
   border-bottom: 0.8px solid #DBDEF0;
@@ -113,6 +122,7 @@ main {
   padding: 0.25rem 1.25rem;
   border: 0.77px solid #4D5B9E;
   border-radius: 7px;
+  max-width: 160px;
 }
 
 .game-summary {
@@ -165,6 +175,6 @@ button:active {
   border-radius: 10px;
   padding: 0.6rem 2rem;
   font-weight: 500;
-  font-size: clamp(0.725rem, 3.2vh, 1.6rem);
-  margin-top: 1.25rem;
+  font-size: clamp(0.725rem, 3.2vh, 1.25rem);
+  margin-top: 1rem;
 }
