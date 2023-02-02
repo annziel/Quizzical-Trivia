@@ -3,7 +3,7 @@ import Questions from "./Questions"
 import GameSummary from "./GameSummary"
 
 export default function Game() {
-    const [answersChecked, setAnswersChecked] = useState(true)
+    const [answersChecked, setAnswersChecked] = useState(false)
 
     function toggleAnswersChecking() {
         setAnswersChecked(prevState => !prevState)
