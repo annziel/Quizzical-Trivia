@@ -124,8 +124,13 @@ main {
   border: 0.77px solid #4D5B9E;
   border-radius: 7px;
   background-color: transparent;
-  max-width: 160px;
+  max-width: calc(100vw / 2 - 40px);
   cursor: pointer;
+}
+
+.selected-answer {
+  background-color: #D6DBF5;
+  border: none;
 }
 
 .game-summary {

@@ -27,5 +27,6 @@ module.exports = {
 		"react/jsx-no-bind": "off",
 		"react/button-has-type": "off",
 		"react/prop-types": "off",
+		"arrow-parens": "off",
 	},
 };
