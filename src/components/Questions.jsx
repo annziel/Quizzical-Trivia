@@ -1,39 +1,83 @@
-import React, {useState, useEffect} from "react"
+import React, { useState, useEffect } from 'react';
 
 export default function Questions(props) {
 // props.isAnswersChecked
 
-const [questions, setQuestions] = useState([])
+	const [questions, setQuestions] = useState([]);
 
-useEffect(() => {
-    fetch("https://opentdb.com/api.php?amount=5&type=multiple")
-        .then(res => res.json())
-        .then(data => setQuestions(data.results))
-    }, []
-)
+	useEffect(() => {
+		async function getApi() {
+			const res = await fetch('https://opentdb.com/api.php?amount=5&type=multiple');
+			const ApiData = await res.json();
+			console.log(ApiData.results);
+			const questionsToRender = prepareToRender(ApiData.results);
+			console.log(questionsToRender);
+			setQuestions(questionsToRender);
+			console.log(questions);
+		}
+		getApi();
+	}, []);
 
-function escapeEncoding(text) {
-    return new DOMParser().parseFromString(text, "text/html").body.textContent
-}
+	function prepareToRender(array) {
+		return array.map((obj, index) => {
+			console.log(obj);
+			const newObj = {
+				...obj,
+				// making the array of possible answers and shuffle it for a random order
+				shuffledAnswers: getShuffledAnswers([...obj.incorrect_answers, obj.correct_answer]),
+				// for a key property
+				id: index + 1,
+			};
+			return newObj;
+		});
+	}
 
-const questionsElements = questions.map(q => {
-    return (
-        <div className="question-box">
-            <h2 className="question-text">{escapeEncoding(q.question)}</h2>
-            <div className="answers-container">
-                <p className="answer-option">{escapeEncoding(q.correct_answer)}</p>
-                <p className="answer-option">{escapeEncoding(q.incorrect_answers[0])}</p>
-                <p className="answer-option">{escapeEncoding(q.incorrect_answers[1])}</p>
-                <p className="answer-option">{escapeEncoding(q.incorrect_answers[2])}</p>
-            </div>
-            <hr />
-        </div>
-    )
-})
+	// randomize array in-place using Durstenfeld shuffle algorithm
+	function getShuffledAnswers(array) {
+		const newArray = [...array];
+		for (let i = newArray.length - 1; i > 0; i--) {
+			const rand = Math.floor(Math.random() * (i + 1));
+			[newArray[i], newArray[rand]] = [newArray[rand], newArray[i]];
+		}
+		return newArray;
+	}
 
-return (
-    <div className="questions-container">
-        {questionsElements}
-    </div>
-)
+	function escapeEncoding(text) {
+		return new DOMParser().parseFromString(text, 'text/html').body.textContent;
+	}
+
+	function handleAnswerClick(e) {
+
+	}
+
+	function getAnswersElements(question) {
+		return question.shuffledAnswers.map((answer) => (
+			<button
+				type="button"
+				className="answer-option"
+				onClick={handleAnswerClick}
+			>
+				{escapeEncoding(answer)}
+			</button>
+		));
+	}
+
+	const questionsElements = questions.map((q) => {
+		console.log(q);
+		return (
+			<div className="question-box" key={q.id}>
+				<h2 className="question-text">{escapeEncoding(q.question)}</h2>
+				<div className="answers-container">
+					{getAnswersElements(q)}
+				</div>
+				<hr />
+			</div>
+		);
+	});
+
+	return (
+		<div className="questions-container">
+			{questionsElements}
+		</div>
+	);
 }

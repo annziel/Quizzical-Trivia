@@ -1,18 +1,18 @@
-import React, { useState } from 'react'
-import Questions from "./Questions"
-import GameSummary from "./GameSummary"
+import React, { useState } from 'react';
+import Questions from "./Questions";
+import GameSummary from "./GameSummary";
 
 export default function Game() {
-    const [answersChecked, setAnswersChecked] = useState(false)
+	const [answersChecked, setAnswersChecked] = useState(false);
 
-    function toggleAnswersChecking() {
-        setAnswersChecked(prevState => !prevState)
-    }
+	function toggleAnswersChecking() {
+		setAnswersChecked((prevState) => !prevState);
+	}
 
-    return (
-        <div className="game text-container">
-            <Questions />
-            <GameSummary isAnswersChecked={answersChecked} setAnswers={toggleAnswersChecking}/>
-        </div>
-    )
+	return (
+		<div className="game text-container">
+			<Questions />
+			<GameSummary isAnswersChecked={answersChecked} setAnswers={toggleAnswersChecking} />
+		</div>
+	);
 }
