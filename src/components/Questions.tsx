@@ -1,9 +1,19 @@
 import React, { useState, useEffect } from 'react';
 
-export default function Questions(props) {
-// props.isAnswersChecked
+type Question = {
+    category: string,
+    type: string,
+    difficulty: string,
+    question: string,
+    correct_answer: string,
+    incorrect_answers: string[],
+	shuffled_answers: string[],
+	selected_answer: string,
+	id: number,
+}
 
-	const [questions, setQuestions] = useState([]);
+export default function Questions({ isAnswersChecked }) {
+	const [questions, setQuestions] = useState<Question[]>([]);
 
 	useEffect(() => {
 		async function getApi() {
@@ -15,14 +25,14 @@ export default function Questions(props) {
 		getApi();
 	}, []);
 
-	function prepareToRender(array) {
+	function prepareToRender(array: Question[]) {
 		return array.map((obj, index) => {
 			const newObj = {
 				...obj,
 				// making the array of possible answers and shuffle it for a random order
-				shuffledAnswers: getShuffledAnswers([...obj.incorrect_answers, obj.correct_answer]),
+				shuffled_answers: getShuffledAnswers([...obj.incorrect_answers, obj.correct_answer]),
 				// for answer checking
-				selectedAnswer: "",
+				selected_answer: "",
 				// for key and id properties
 				id: index + 1,
 			};
@@ -31,7 +41,7 @@ export default function Questions(props) {
 	}
 
 	// randomize array in-place using Durstenfeld shuffle algorithm
-	function getShuffledAnswers(array) {
+	function getShuffledAnswers(array: string[]) {
 		const newArray = [...array];
 		for (let i = newArray.length - 1; i > 0; i--) {
 			const rand = Math.floor(Math.random() * (i + 1));
@@ -53,29 +63,43 @@ export default function Questions(props) {
 		// updating the questions State
 		setQuestions(prevQuestions => prevQuestions.map(q => {
 			if (q.id === id) {
-				return ({ ...q, selectedAnswer: e.target.dataset.answer });
+				return { ...q, selected_answer: e.target.dataset.answer };
 			}
 			return q;
 		}));
 	}
 
 	function getAnswersElements(question) {
-		return question.shuffledAnswers.map((answer) => (
-			<button
-				type="button"
-				className="answer-option"
-				onClick={(event) => handleAnswerClick(event, question.id)}
-				data-questionid={question.id}
-				data-answer={answer}
-				key={answer}
-			>
-				{escapeEncoding(answer)}
-			</button>
-		));
+		return question.shuffled_answers.map((answer) => {
+			let buttonClass = "";
+			if (isAnswersChecked) {
+				if (answer === question.correct_answer) {
+					buttonClass = "answer-option correct-answer";
+				} else if (answer === question.selected_answer) {
+					buttonClass = "answer-option selected-wrong-answer";
+				} else {
+					buttonClass = "answer-option not-selected-wrong-answer";
+				}
+			} else {
+				buttonClass = "answer-option";
+			}
+
+			return (
+				<button
+					onClick={(event) => handleAnswerClick(event, question.id)}
+					data-questionid={question.id}
+					data-answer={answer}
+					key={answer}
+					className={buttonClass}
+				>
+					{escapeEncoding(answer)}
+				</button>
+			);
+		});
 	}
 
 	const questionsElements = questions.map((q) => (
-		<div className="question-box" key={q.id} id={q.id}>
+		<div className="question-box" key={q.id} id={`${q.id}`}>
 			<h2 className="question-text">{escapeEncoding(q.question)}</h2>
 			<div className="answers-container">
 				{getAnswersElements(q)}
@@ -90,3 +114,4 @@ export default function Questions(props) {
 		</div>
 	);
 }
+ 

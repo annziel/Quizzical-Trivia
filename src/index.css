@@ -133,6 +133,21 @@ main {
   border: none;
 }
 
+.correct-answer {
+  background-color: #94D7A2;
+  border: none;
+}
+
+.selected-wrong-answer {
+  background-color: #F8BCBC;
+  border: none;
+  opacity: 0.5;
+}
+
+.not-selected-wrong-answer {
+  opacity: 0.5;
+}
+
 .game-summary {
   display: flex;
   align-items: center;
