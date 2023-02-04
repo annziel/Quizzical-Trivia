@@ -5,13 +5,9 @@
 import React from "react";
 
 export default function GameSummary({
-	setAnswers, isAnswersChecked, score, getScore,
+	isAnswersChecked, score, handleGameSummaryChange
 }) {
-	function handleClick() {
-		setAnswers();
-		getScore();
-		setTimeout(() => console.log(isAnswersChecked), 1500);
-	}
+	
 
 	return (
 		<div className="game-summary">
@@ -24,7 +20,7 @@ export default function GameSummary({
 				</p>
 			)}
 			<button
-				onClick={handleClick}
+				onClick={handleGameSummaryChange}
 				className="main-btn game-summary-btn"
 			>
 				{isAnswersChecked ? "Play again" : "Check answers"}
