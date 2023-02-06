@@ -1,8 +1,6 @@
 import React from "react";
 
-export default function GameSummary({
-	score, handleAppStateChange, appState
-}) {
+export default function GameSummary({ score, handleGameEnd, appState }) {
 	
 	return (
 		<div className="game-summary">
@@ -15,7 +13,7 @@ export default function GameSummary({
 				</p>
 			)}
 			<button
-				onClick={handleAppStateChange}
+				onClick={handleGameEnd}
 				className="main-btn game-summary-btn"
 				disabled={appState === "loading" ? true : false}
 			>
