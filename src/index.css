@@ -74,13 +74,6 @@ main {
   margin: 0 0 clamp(40px, 10vh, 60px) 0;
 }
 
-.game {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-}
-
 .questions-container {
   display: flex;
   flex-direction: column;

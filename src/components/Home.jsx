@@ -6,7 +6,7 @@ export default function Home({ setAppState }) {
 	}
 
 	return (
-		<div className="home text-container">
+		<div className="text-container">
 			<h1 className="game-title">Quizzical</h1>
 			<p className="game-subtitle">Answer some random questions and have fun!</p>
 			<button className="main-btn start-game-btn" onClick={handleGameStart}>Start quiz</button>

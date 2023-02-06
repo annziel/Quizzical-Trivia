@@ -1,14 +1,12 @@
 import React from "react";
 
-export default function GameSummary({ score, handleGameEnd, appState }) {
-	
+export default function GameSummary({ appState, handleGameEnd, score }) {
 	return (
 		<div className="game-summary">
 			{appState === "gameEnd" && (
 				<p className="game-summary-txt">
 					You scored
-					{' '}
-					{score}
+					{' '} {score}
 					/5 correct answers
 				</p>
 			)}

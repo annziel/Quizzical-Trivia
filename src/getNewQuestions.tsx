@@ -1,4 +1,4 @@
-type Question = {
+export type Question = {
     category: string,
     type: string,
     difficulty: string,
@@ -10,11 +10,15 @@ type Question = {
 	id: number,
 }
 
-async function getNewQuestions() {
+export async function getNewQuestions() {
 	const apiData = await getApi();
 	const questionsWithoutEncoding = getDataWithoutEncoding(apiData.results);
-	const questionsToRender = prepareToRender(questionsWithoutEncoding);
-	return questionsToRender
+	return prepareToRender(questionsWithoutEncoding);
+}
+
+async function getApi() {
+	const res = await fetch('https://opentdb.com/api.php?amount=5&type=multiple');
+	return await res.json();
 }
 
 function getDataWithoutEncoding(data) {
@@ -22,8 +26,8 @@ function getDataWithoutEncoding(data) {
 		const newObj = {
 			...obj,
 			question: escapeEncoding(obj.question),
-			incorrect_answers: obj.incorrect_answers.map(answer => escapeEncoding(answer)),
 			correct_answer: escapeEncoding(obj.correct_answer),
+			incorrect_answers: obj.incorrect_answers.map(answer => escapeEncoding(answer)),
 		};
 		return newObj;
 	});
@@ -33,17 +37,11 @@ function escapeEncoding(text) {
 	return new DOMParser().parseFromString(text, 'text/html').body.textContent;
 }
 
-async function getApi() {
-	const res = await fetch('https://opentdb.com/api.php?amount=5&type=multiple');
-	const apiData = await res.json();
-	return apiData;
-}
-
 function prepareToRender(array: Question[]) {
 	return array.map((obj, index) => {
 		const newObj = {
 			...obj,
-			// making the array of possible answers and shuffle it for a random order
+			// making the array of possible answers and shuffle it
 			shuffled_answers: getShuffledAnswers([...obj.incorrect_answers, obj.correct_answer]),
 			// for answer checking
 			selected_answer: "",
@@ -54,7 +52,7 @@ function prepareToRender(array: Question[]) {
 	});
 }
 
-// randomize array in-place using Durstenfeld shuffle algorithm
+// randomize array using Durstenfeld shuffle algorithm
 function getShuffledAnswers(array: string[]) {
 	const newArray = [...array];
 	for (let i = newArray.length - 1; i > 0; i--) {
@@ -63,6 +61,3 @@ function getShuffledAnswers(array: string[]) {
 	}
 	return newArray;
 }
-
-
-export { getNewQuestions, Question }

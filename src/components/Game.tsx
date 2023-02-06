@@ -1,12 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import Questions from "./Questions";
 import GameSummary from "./GameSummary";
-import { Question, getNewQuestions } from "../getNewQuestions"
+import { getNewQuestions } from "../getNewQuestions"
+import type { Question } from "../getNewQuestions"
 
 
 export default function Game({ appState, setAppState }) {
+	// State for questions used in game, correct and chosen answers included;
+	// passed to the Question Component to render and follow changes
     const [questions, setQuestions] = useState<Question[]>([]);
 
+	// gain and display new questions when game starts
 	useEffect(() => {
 		displayNewQuestions();
 	}, []);
@@ -14,6 +18,7 @@ export default function Game({ appState, setAppState }) {
 	async function displayNewQuestions() {
 		try {
 			setAppState("loading")
+			// API request and changes data to needed format
 			const newQuestions:Question[] = await getNewQuestions()
 			setQuestions(newQuestions);
 			setAppState("gamePlay")
@@ -24,13 +29,17 @@ export default function Game({ appState, setAppState }) {
 
 	function handleGameEnd() {
 		if (appState === "gameEnd") {
+			// gain and render questions for a new game
 			displayNewQuestions()
-		} else
-		if (appState === "gamePlay") {
+		} else if (appState === "gamePlay") {
+			// stop the game to check the answers
 			setAppState("gameEnd")
 		}
 	}
 
+	// Score renderded in the Game Summary Component, but
+	// data about correct and chosen answers are stored in State here (the Game Component), so
+	// calculated Score is passed to the Game Summary as a prop
 	function calculateScore() {
 		const checkedAnswers:number[] = questions.map(q => {
 			if (q.correct_answer === q.selected_answer) {
@@ -38,26 +47,24 @@ export default function Game({ appState, setAppState }) {
 			}
 			return 0
 		})
-		const score = checkedAnswers.reduce((score, ckeckedAnswer) => score + ckeckedAnswer, 0)
-		return score
+		return checkedAnswers.reduce( (score, ckeckedAnswer) => score + ckeckedAnswer, 0 )
 	}
 
 	return (
-		<div className="game text-container">
-			{appState === "error" ?
+		<div className="text-container">
+			{ appState === "error" ?
 				<div className="error-message"> An error ocured. Please try again later.</div>
 				:
 				<div>
 					<Questions
+						appState={appState}
 						questions={questions}
 						setQuestions={setQuestions}
-						appState={appState}
-						setAppState={setAppState}
 					/>
 					<GameSummary
-						score={calculateScore()}
-						handleGameEnd={handleGameEnd}
 						appState={appState}
+						handleGameEnd={handleGameEnd}
+						score={calculateScore()}
 					/>
 				</div>
 			}
