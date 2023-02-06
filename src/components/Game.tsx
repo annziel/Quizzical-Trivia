@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Questions from "./Questions";
 import GameSummary from "./GameSummary";
+import getApi from "../getApi"
 
 type Question = {
     category: string,
@@ -15,29 +16,24 @@ type Question = {
 }
 
 
-export default function Game() {
+export default function Game({ appState, setAppState }) {
     const [questions, setQuestions] = useState<Question[]>([]);
-	const [newGame, setNewGame] = useState(false)
-	const [isLoading, setIsLoading] = useState(false)
-	const [isError, setIsError] = useState(false)
 
 	useEffect(() => {
-		async function getApi() {
-			try {
-				setIsLoading(true)
-				const res = await fetch('https://opentdb.com/api.php?amount=5&type=multiple');
-				const ApiData = await res.json();
-				const questionsToRender = prepareToRender(ApiData.results);
-				setQuestions(questionsToRender);
-				setIsLoading(false)
-			}
-			catch(err) {
-				setIsError(true)
-				setIsLoading(false)
-			}
+		getNewQuestions();
+	}, []);
+
+	async function getNewQuestions() {
+		try {
+			setAppState("loading")
+			const apiData = await getApi();
+			const questionsToRender = prepareToRender(apiData.results);
+			setQuestions(questionsToRender);
+			setAppState("gamePlay")
+		} catch (err) {
+			setAppState("error")
 		}
-		getApi();
-	}, [newGame]);
+	}
 
 	function prepareToRender(array: Question[]) {
 		return array.map((obj, index) => {
@@ -65,14 +61,13 @@ export default function Game() {
 	}
 
 
-	const [answersChecked, setAnswersChecked] = useState(false);
-
-
-	function handleGameSummaryChange() {
-		if (answersChecked === true) {
-			setNewGame(prevState => !prevState)
+	function handleAppStateChange() {
+		if (appState === "gameEnd") {
+			getNewQuestions()
+		} else
+		if (appState === "gamePlay") {
+			setAppState("gameEnd")
 		}
-		setAnswersChecked((prevState) => !prevState);
 	}
 
 	function calculateScore() {
@@ -88,21 +83,20 @@ export default function Game() {
 
 	return (
 		<div className="game text-container">
-			{isError ?
+			{appState === "error" ?
 				<div className="error-message"> An error ocured. Please try again later.</div>
 				:
 				<div>
 					<Questions
 						questions={questions}
 						setQuestions={setQuestions}
-						isAnswersChecked={answersChecked}
-						isLoading={isLoading}
+						appState={appState}
+						setAppState={setAppState}
 					/>
 					<GameSummary
-						isAnswersChecked={answersChecked}
 						score={calculateScore()}
-						handleGameSummaryChange={handleGameSummaryChange}
-						isLoading={isLoading}
+						handleAppStateChange={handleAppStateChange}
+						appState={appState}
 					/>
 				</div>
 			}

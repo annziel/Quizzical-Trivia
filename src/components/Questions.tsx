@@ -1,7 +1,7 @@
 import React from 'react';
 import getLoader from "./Loader.jsx"
 
-export default function Questions({ isAnswersChecked, questions, setQuestions, isLoading }) {
+export default function Questions({ questions, setQuestions, appState, setAppState }) {
 
 	function escapeEncoding(text) {
 		return new DOMParser().parseFromString(text, 'text/html').body.textContent;
@@ -25,7 +25,7 @@ export default function Questions({ isAnswersChecked, questions, setQuestions, i
 	function getAnswersElements(question) {
 		return question.shuffled_answers.map((answer) => {
 			let buttonClass = "";
-			if (isAnswersChecked) {
+			if (appState === "gameEnd") {
 				if (answer === question.correct_answer) {
 					buttonClass = "answer-option correct-answer";
 				} else if (answer === question.selected_answer) {
@@ -44,7 +44,7 @@ export default function Questions({ isAnswersChecked, questions, setQuestions, i
 					data-answer={answer}
 					key={answer}
 					className={buttonClass}
-					disabled={isAnswersChecked}
+					disabled={appState === "gameEnd" ? true : false}
 				>
 					{escapeEncoding(answer)}
 				</button>
@@ -64,7 +64,7 @@ export default function Questions({ isAnswersChecked, questions, setQuestions, i
 
 	return (
 		<div className="questions-container">
-			{isLoading && getLoader()}
+			{appState === "loading" && getLoader()}
 			{questionsElements}
 		</div>
 	);

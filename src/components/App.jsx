@@ -1,17 +1,13 @@
 import React, { useState } from 'react';
 import Home from "./Home";
-import Game from "./Game";
+import Game from "./Game.tsx";
 
 function App() {
-	const [homeView, setHomeView] = useState(true);
-
-	function handleChange() {
-		setHomeView((prevView) => !prevView);
-	}
+	const [appState, setAppState] = useState("home");
 
 	return (
-		<main className={homeView ? "home-view" : ""}>
-			{homeView ? <Home handleViewChange={handleChange} /> : <Game />}
+		<main className={appState === "home" ? "home-view" : ""}>
+			{appState === "home" ? <Home setAppState={setAppState} /> : <Game appState={appState} setAppState={setAppState} />}
 		</main>
 	);
 }

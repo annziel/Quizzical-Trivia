@@ -1,13 +1,12 @@
 import React from "react";
 
 export default function GameSummary({
-	isAnswersChecked, score, handleGameSummaryChange, isLoading
+	score, handleAppStateChange, appState
 }) {
 	
-
 	return (
 		<div className="game-summary">
-			{isAnswersChecked && (
+			{appState === "gameEnd" && (
 				<p className="game-summary-txt">
 					You scored
 					{' '}
@@ -16,11 +15,11 @@ export default function GameSummary({
 				</p>
 			)}
 			<button
-				onClick={handleGameSummaryChange}
+				onClick={handleAppStateChange}
 				className="main-btn game-summary-btn"
-				disabled={isLoading}
+				disabled={appState === "loading" ? true : false}
 			>
-				{isAnswersChecked ? "Play again" : "Check answers"}
+				{appState === "gameEnd" ? "Play again" : "Check answers"}
 			</button>
 		</div>
 	);
