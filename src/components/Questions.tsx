@@ -1,6 +1,7 @@
 import React from 'react';
+import getLoader from "./Loader.jsx"
 
-export default function Questions({ isAnswersChecked, questions, setQuestions }) {
+export default function Questions({ isAnswersChecked, questions, setQuestions, isLoading }) {
 
 	function escapeEncoding(text) {
 		return new DOMParser().parseFromString(text, 'text/html').body.textContent;
@@ -43,6 +44,7 @@ export default function Questions({ isAnswersChecked, questions, setQuestions })
 					data-answer={answer}
 					key={answer}
 					className={buttonClass}
+					disabled={isAnswersChecked}
 				>
 					{escapeEncoding(answer)}
 				</button>
@@ -62,6 +64,7 @@ export default function Questions({ isAnswersChecked, questions, setQuestions })
 
 	return (
 		<div className="questions-container">
+			{isLoading && getLoader()}
 			{questionsElements}
 		</div>
 	);

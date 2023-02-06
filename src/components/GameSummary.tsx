@@ -1,11 +1,7 @@
-// TO DO:
-// handleClick - other features
-// game-summary-text - score rendering
-
 import React from "react";
 
 export default function GameSummary({
-	isAnswersChecked, score, handleGameSummaryChange
+	isAnswersChecked, score, handleGameSummaryChange, isLoading
 }) {
 	
 
@@ -22,6 +18,7 @@ export default function GameSummary({
 			<button
 				onClick={handleGameSummaryChange}
 				className="main-btn game-summary-btn"
+				disabled={isLoading}
 			>
 				{isAnswersChecked ? "Play again" : "Check answers"}
 			</button>

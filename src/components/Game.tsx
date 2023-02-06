@@ -17,16 +17,27 @@ type Question = {
 
 export default function Game() {
     const [questions, setQuestions] = useState<Question[]>([]);
+	const [newGame, setNewGame] = useState(false)
+	const [isLoading, setIsLoading] = useState(false)
+	const [isError, setIsError] = useState(false)
 
 	useEffect(() => {
 		async function getApi() {
-			const res = await fetch('https://opentdb.com/api.php?amount=5&type=multiple');
-			const ApiData = await res.json();
-			const questionsToRender = prepareToRender(ApiData.results);
-			setQuestions(questionsToRender);
+			try {
+				setIsLoading(true)
+				const res = await fetch('https://opentdb.com/api.php?amount=5&type=multiple');
+				const ApiData = await res.json();
+				const questionsToRender = prepareToRender(ApiData.results);
+				setQuestions(questionsToRender);
+				setIsLoading(false)
+			}
+			catch(err) {
+				setIsError(true)
+				setIsLoading(false)
+			}
 		}
 		getApi();
-	}, []);
+	}, [newGame]);
 
 	function prepareToRender(array: Question[]) {
 		return array.map((obj, index) => {
@@ -58,9 +69,10 @@ export default function Game() {
 
 
 	function handleGameSummaryChange() {
+		if (answersChecked === true) {
+			setNewGame(prevState => !prevState)
+		}
 		setAnswersChecked((prevState) => !prevState);
-		// disable click answer event
-		setTimeout(() => console.log(answersChecked), 1500);
 	}
 
 	function calculateScore() {
@@ -76,17 +88,24 @@ export default function Game() {
 
 	return (
 		<div className="game text-container">
-			<Questions
-				questions={questions}
-				setQuestions={setQuestions}
-				isAnswersChecked={answersChecked}
-
-			/>
-			<GameSummary
-				isAnswersChecked={answersChecked}
-				score={calculateScore()}
-				handleGameSummaryChange={handleGameSummaryChange}
-			/>
+			{isError ?
+				<div className="error-message"> An error ocured. Please try again later.</div>
+				:
+				<div>
+					<Questions
+						questions={questions}
+						setQuestions={setQuestions}
+						isAnswersChecked={answersChecked}
+						isLoading={isLoading}
+					/>
+					<GameSummary
+						isAnswersChecked={answersChecked}
+						score={calculateScore()}
+						handleGameSummaryChange={handleGameSummaryChange}
+						isLoading={isLoading}
+					/>
+				</div>
+			}
 		</div>
 	);
 }
