@@ -12,8 +12,25 @@ type Question = {
 
 async function getNewQuestions() {
 	const apiData = await getApi();
-	const questionsToRender = prepareToRender(apiData.results);
+	const questionsWithoutEncoding = getDataWithoutEncoding(apiData.results);
+	const questionsToRender = prepareToRender(questionsWithoutEncoding);
 	return questionsToRender
+}
+
+function getDataWithoutEncoding(data) {
+	return data.map(obj => {
+		const newObj = {
+			...obj,
+			question: escapeEncoding(obj.question),
+			incorrect_answers: obj.incorrect_answers.map(answer => escapeEncoding(answer)),
+			correct_answer: escapeEncoding(obj.correct_answer),
+		};
+		return newObj;
+	});
+}
+
+function escapeEncoding(text) {
+	return new DOMParser().parseFromString(text, 'text/html').body.textContent;
 }
 
 async function getApi() {
@@ -46,5 +63,6 @@ function getShuffledAnswers(array: string[]) {
 	}
 	return newArray;
 }
+
 
 export { getNewQuestions, Question }

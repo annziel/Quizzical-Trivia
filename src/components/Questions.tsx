@@ -3,10 +3,6 @@ import getLoader from "./Loader.jsx"
 
 export default function Questions({ questions, setQuestions, appState, setAppState }) {
 
-	function escapeEncoding(text) {
-		return new DOMParser().parseFromString(text, 'text/html').body.textContent;
-	}
-
 	function handleAnswerClick(e, id) {
 		// cleanup of previously selected answers
 		const elementsToToggle = document.querySelectorAll(`button[data-questionid='${e.target.dataset.questionid}']`);
@@ -46,7 +42,7 @@ export default function Questions({ questions, setQuestions, appState, setAppSta
 					className={buttonClass}
 					disabled={appState === "gameEnd" ? true : false}
 				>
-					{escapeEncoding(answer)}
+					{answer}
 				</button>
 			);
 		});
@@ -54,7 +50,7 @@ export default function Questions({ questions, setQuestions, appState, setAppSta
 
 	const questionsElements = questions.map((q) => (
 		<div className="question-box" key={q.id} id={`${q.id}`}>
-			<h2 className="question-text">{escapeEncoding(q.question)}</h2>
+			<h2 className="question-text">{q.question}</h2>
 			<div className="answers-container">
 				{getAnswersElements(q)}
 			</div>
