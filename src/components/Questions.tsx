@@ -65,7 +65,7 @@ export default function Questions({ questions, setQuestions, appState, setAppSta
 	return (
 		<div className="questions-container">
 			{appState === "loading" && getLoader()}
-			{questionsElements}
+			{(appState === "gamePlay" || appState === "gameEnd") && questionsElements}
 		</div>
 	);
 }
