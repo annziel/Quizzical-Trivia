@@ -6,15 +6,16 @@ import type { Question } from "../getNewQuestions"
 export default function Questions({ appState, questions, setQuestions }) {
 
 	function handleAnswerClick(e: React.MouseEvent<HTMLElement>, id: number) {
+		const target = e.target as HTMLElement;
 		// cleanup of previously selected answers
-		const elementsToToggle = document.querySelectorAll(`button[data-questionid='${e.currentTarget.dataset.questionid}']`);
+		const elementsToToggle = document.querySelectorAll(`button[data-questionid='${target.dataset.questionid}']`);
 		elementsToToggle.forEach(el => el.classList.remove("selected-answer"));
 		// add a class to the selected answer
-		e.currentTarget.classList.add("selected-answer");
+		target.classList.add("selected-answer");
 		// updating the questions State
 		setQuestions((prevQuestions: Question[]) => prevQuestions.map(q => {
 			if (q.id === id) {
-				return { ...q, selected_answer: e.currentTarget.dataset.answer };
+				return { ...q, selected_answer: target.dataset.answer };
 			}
 			return q;
 		}));
