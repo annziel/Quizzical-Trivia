@@ -1,3 +1,5 @@
+/* GENERAL STYLING */
+
 @font-face {
   font-family: "Karla";
   src: local("Karla"), local("Karla"),
@@ -21,6 +23,36 @@ body {
   color: #293264;
 }
 
+body,
+button {
+  line-height: 1.2;
+
+}
+
+.game-title,
+.question-text {
+  font-family: 'Karla', sans-serif;
+}
+
+button,
+.game-subtitle,
+.answer-option,
+.game-summary-txt,
+.error-message {
+  font-family: 'Inter', sans-serif;
+}
+
+main,
+.text-container,
+.questions-container,
+.question-box {
+  display: flex;
+  flex-direction: column;
+}
+
+
+/* LAYOUT & CONTENT */
+
 main {
   width: 100vw;
   min-height: 100vh;
@@ -29,8 +61,6 @@ main {
   background-position: top right, bottom left;
   background-size: 15vmax 15vmax, 15vmax 10vmax;
   background-repeat: no-repeat;
-  display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
 }
@@ -39,7 +69,6 @@ main {
   background-size: 25vmax 25vmax, 25vmax 15vmax;
   text-align: center;
   justify-content: flex-start;
-  align-items: center;
   padding-top: 20vh;
 }
 
@@ -51,80 +80,69 @@ main {
 
 .text-container {
   max-width: 750px;
-  display: flex;
-  flex-direction: column;
   justify-content: space-between;
   margin: 1rem 1.5rem 1.5rem;
 }
 
 .game-title {
-  font-family: 'Karla', sans-serif;
   font-weight: bold;
   font-size: clamp(2rem, 15vmin, 3.75rem);
-  line-height: 1.2;
   margin-bottom: clamp(0.5rem, 3vh, 1rem);
 }
 
 .game-subtitle {
-  font-family: 'Inter', sans-serif;
   font-style: normal;
   font-weight: 300;
   font-size: clamp(0.9rem, 2.5vh, 1.5rem);
-  line-height: 1.2;  
   margin: 0 0 clamp(40px, 8vh, 60px) 0;
 }
 
+.error-message {
+  font-size: clamp(0.8rem, 3vh, 1.5rem);
+}
+
 .questions-container {
-  display: flex;
-  flex-direction: column;
   justify-content: center;
 }
 
 .question-box {
-  display: flex;
-  flex-direction: column;
   justify-content: space-between;
 }
 
 .question-text {
-  font-family: 'Karla', sans-serif;
-  font-weight: bold;
   font-size: clamp(1rem, 3vmin, 1.125rem);
-  line-height: 1.2;
   margin: 0.75rem 0 1rem;
 }
 
 .answers-container {
+  padding-bottom: clamp(1rem, 3.5vh, 1.5rem);
+  border-bottom: 1px solid #DBDEF0;
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-start;
-  align-items: center;
+  align-items: stretch;
   gap: 0.8rem;
-  padding-bottom: clamp(1rem, 3.5vh, 1.5rem);
-  border-bottom: 1px solid #DBDEF0;
 }
 
 @media (max-width: 430px) {
   .answers-container {
-    display: grid;
-    grid-template-rows: 1fr 1fr;
-    grid-template-columns: 1fr 1fr;
-    justify-items: stretch;
-    align-items: stretch;
-    gap: 1rem;
-    padding: 1rem;
+    padding: 0 1rem;
     padding-bottom: clamp(1rem, 3.5vh, 1.5rem);
+    display: grid;
+    grid-template: 1fr 1fr / 1fr 1fr;
+    justify-items: stretch;
   }
   .answers-container .answer-option {
     max-width: unset;
   }
 }
 
+
+/* BUTTONS */
+
 button {
-  font-family: 'Inter', sans-serif;
   border: none;
   cursor: pointer;
-  line-height: 1.2;
 }
 
 button:hover,
@@ -142,18 +160,15 @@ button:disabled:not(.correct-answer) {
 }
 
 .answer-option {
-  font-family: 'Inter', sans-serif;
-  font-weight: 500;
-  font-size: clamp(0.725rem, 1.75vmin, 1rem);
-  line-height: 1.2;
-  text-align: center;
-  color: #293264;
+  max-width: calc(100% / 2 - 40px);
   margin: 0;
   padding: 0.25rem 1.25rem;
   border: 0.8px solid #4D5B9E;
   border-radius: 7px;
   background-color: transparent;
-  max-width: calc(100% / 2 - 40px);
+  font-size: clamp(0.725rem, 1.75vmin, 1rem);
+  font-weight: 500;
+  color: #293264;
 }
 
 .selected-answer,
@@ -174,32 +189,6 @@ button:disabled:not(.correct-answer) {
   background-color: #F8BCBC;
 }
 
-.game-summary {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-top: 1rem;
-}
-
-@media (max-width: 550px) {
-  .game-summary {
-    flex-direction: column;
-  }
-  .game-summary .game-summary-txt {
-    margin: 0 0 1rem 0;
-  }
-}
-
-.game-summary-txt {
-  font-family: 'Inter', sans-serif;
-  font-weight: 600;
-  font-size: clamp(1rem, 3vmin, 1.2rem);
-  line-height: 1.2;
-  text-align: center;
-  margin: 0;
-  margin-right: clamp(1.25rem, 6vh, 1.75rem)
-}
-
 .main-btn {
   background: #4D5B9E;
   color: #F5F7FB;
@@ -211,32 +200,52 @@ button:disabled:not(.correct-answer) {
 }
 
 .start-game-btn {
-  border-radius: 15px;
   padding: 1rem 4rem;
-  font-weight: 400;
+  border-radius: 15px;
   font-size: clamp(1rem, 3.125vh, 1.6rem);
+  font-weight: 400;
   letter-spacing: 1px;
   margin: auto;
 }
 
 .game-summary-btn {
-  border-radius: 10px;
   padding: 0.6rem 2rem;
-  font-weight: 500;
+  border-radius: 10px;
   font-size: clamp(0.725rem, 2.5vmin, 1.125rem);
+  font-weight: 500;
 }
 
-.error-message {
-  align-self: center;
-  font-family: "Inter", sans-serif;
-  font-size: clamp(0.8rem, 3vh, 1.5rem);
-  line-height: 1.2;
+
+/* GAME SUMMARY */
+
+.game-summary {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 1rem;
+}
+
+.game-summary-txt {
+  margin: 0;
+  margin-right: clamp(1.25rem, 6vh, 1.75rem);
+  font-size: clamp(1rem, 3vmin, 1.2rem);
+  font-weight: 600;
   text-align: center;
+}
+
+@media (max-width: 550px) {
+  .game-summary {
+    flex-direction: column;
+  }
+  .game-summary .game-summary-txt {
+    margin: 0 0 1rem 0;
+  }
 }
 
 
 /* LOADER */
 /* code from loading.io/css/ */
+
 .lds-ellipsis {
   align-self: center;
   display: inline-block;
