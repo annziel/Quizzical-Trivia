@@ -11,8 +11,6 @@
   font-weight: bold;
 }
 
-
-
 * {
   box-sizing: border-box;
 }
@@ -23,19 +21,14 @@ body {
   color: #293264;
 }
 
-#root {
-  display: flex;
-  justify-content: center;
-}
-
 main {
   width: 100vw;
   min-height: 100vh;
   background-color: #F5F7FB;
   background-image: url(/blob-yellow.png), url(/blob-blue.png);
-  background-repeat: no-repeat;
   background-position: top right, bottom left;
   background-size: 15vmax 15vmax, 15vmax 10vmax;
+  background-repeat: no-repeat;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -46,11 +39,18 @@ main {
   background-size: 25vmax 25vmax, 25vmax 15vmax;
   text-align: center;
   justify-content: flex-start;
-  padding-top: 20vh
+  align-items: center;
+  padding-top: 20vh;
+}
+
+@media (max-height: 500px) {
+  .home-view {
+    padding-top: clamp(10px, 15vh, 30px);
+  }
 }
 
 .text-container {
-  max-width: 800px;
+  max-width: 750px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -60,18 +60,18 @@ main {
 .game-title {
   font-family: 'Karla', sans-serif;
   font-weight: bold;
-  font-size: clamp(2rem, 15vh, 3.75rem);
+  font-size: clamp(2rem, 15vmin, 3.75rem);
   line-height: 1.2;
-  margin-bottom: clamp(0.5rem, 2vh, 1rem);
+  margin-bottom: clamp(0.5rem, 3vh, 1rem);
 }
 
 .game-subtitle {
   font-family: 'Inter', sans-serif;
   font-style: normal;
   font-weight: 300;
-  font-size: clamp(1rem, 2.5vh, 1.5rem);
+  font-size: clamp(0.9rem, 2.5vh, 1.5rem);
   line-height: 1.2;  
-  margin: 0 0 clamp(40px, 10vh, 60px) 0;
+  margin: 0 0 clamp(40px, 8vh, 60px) 0;
 }
 
 .questions-container {
@@ -89,9 +89,9 @@ main {
 .question-text {
   font-family: 'Karla', sans-serif;
   font-weight: bold;
-  font-size: clamp(1rem, 3.2vh, 1.2rem);
+  font-size: clamp(1rem, 3vmin, 1.125rem);
   line-height: 1.2;
-  margin: 1rem 0;
+  margin: 0.75rem 0 1rem;
 }
 
 .answers-container {
@@ -99,58 +99,25 @@ main {
   flex-wrap: wrap;
   justify-content: flex-start;
   align-items: center;
-  gap: 0.81rem;
+  gap: 0.8rem;
   padding-bottom: clamp(1rem, 3.5vh, 1.5rem);
-  border-bottom: 0.8px solid #DBDEF0;
+  border-bottom: 1px solid #DBDEF0;
 }
 
-.answer-option {
-  font-family: 'Inter';
-  font-style: normal;
-  font-weight: 500;
-  font-size: clamp(0.725rem, 2vh, 1.2rem);
-  line-height: 1.2;
-  text-align: center;
-  color: #293264;
-  margin: 0;
-  padding: 0.25rem 1.25rem;
-  border: 0.77px solid #4D5B9E;
-  border-radius: 7px;
-  background-color: transparent;
-  max-width: calc(100vw / 2 - 40px);
-  cursor: pointer;
-}
-
-.selected-answer {
-  background-color: #D6DBF5;
-  border: none;
-}
-
-.correct-answer {
-  background-color: #94D7A2;
-  border: none;
-}
-
-.selected-wrong-answer {
-  background-color: #F8BCBC;
-  border: none;
-}
-
-.game-summary {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-top: 1rem;
-}
-
-.game-summary-txt {
-  font-family: 'Inter', sans-serif;
-  font-weight: 600;
-  font-size: clamp(0.8rem, 3vh, 1.5rem);
-  line-height: 1.2;
-  text-align: center;
-  margin: 0;
-  margin-right: clamp(1.25rem, 6vh, 1.75rem)
+@media (max-width: 430px) {
+  .answers-container {
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+    grid-template-columns: 1fr 1fr;
+    justify-items: stretch;
+    align-items: stretch;
+    gap: 1rem;
+    padding: 1rem;
+    padding-bottom: clamp(1rem, 3.5vh, 1.5rem);
+  }
+  .answers-container .answer-option {
+    max-width: unset;
+  }
 }
 
 button {
@@ -174,6 +141,65 @@ button:disabled:not(.correct-answer) {
   opacity: 0.5;
 }
 
+.answer-option {
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  font-size: clamp(0.725rem, 1.75vmin, 1rem);
+  line-height: 1.2;
+  text-align: center;
+  color: #293264;
+  margin: 0;
+  padding: 0.25rem 1.25rem;
+  border: 0.8px solid #4D5B9E;
+  border-radius: 7px;
+  background-color: transparent;
+  max-width: calc(100% / 2 - 40px);
+}
+
+.selected-answer,
+.correct-answer,
+.selected-wrong-answer {
+  border: none;
+}
+
+.selected-answer {
+  background-color: #D6DBF5;
+}
+
+.correct-answer {
+  background-color: #94D7A2;
+}
+
+.selected-wrong-answer {
+  background-color: #F8BCBC;
+}
+
+.game-summary {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 1rem;
+}
+
+@media (max-width: 550px) {
+  .game-summary {
+    flex-direction: column;
+  }
+  .game-summary .game-summary-txt {
+    margin: 0 0 1rem 0;
+  }
+}
+
+.game-summary-txt {
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: clamp(1rem, 3vmin, 1.2rem);
+  line-height: 1.2;
+  text-align: center;
+  margin: 0;
+  margin-right: clamp(1.25rem, 6vh, 1.75rem)
+}
+
 .main-btn {
   background: #4D5B9E;
   color: #F5F7FB;
@@ -181,22 +207,23 @@ button:disabled:not(.correct-answer) {
 
 .main-btn:hover,
 .main-btn:active {
-  box-shadow: inset 0px 0px 10px #323A65;
+  box-shadow: inset 0px 0px 8px #323A65;
 }
 
 .start-game-btn {
   border-radius: 15px;
   padding: 1rem 4rem;
   font-weight: 400;
-  font-size: clamp(1rem, 3.5vh, 1.8rem);
+  font-size: clamp(1rem, 3.125vh, 1.6rem);
   letter-spacing: 1px;
+  margin: auto;
 }
 
 .game-summary-btn {
   border-radius: 10px;
   padding: 0.6rem 2rem;
   font-weight: 500;
-  font-size: clamp(0.725rem, 3.2vh, 1.25rem);
+  font-size: clamp(0.725rem, 2.5vmin, 1.125rem);
 }
 
 .error-message {
