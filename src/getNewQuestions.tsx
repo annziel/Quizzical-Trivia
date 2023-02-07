@@ -21,19 +21,19 @@ async function getApi() {
 	return await res.json();
 }
 
-function getDataWithoutEncoding(data) {
+function getDataWithoutEncoding(data: Question[]) {
 	return data.map(obj => {
 		const newObj = {
 			...obj,
-			question: escapeEncoding(obj.question),
-			correct_answer: escapeEncoding(obj.correct_answer),
-			incorrect_answers: obj.incorrect_answers.map(answer => escapeEncoding(answer)),
+			question: `${escapeEncoding(obj.question)}`,
+			correct_answer: `${escapeEncoding(obj.correct_answer)}`,
+			incorrect_answers: obj.incorrect_answers.map(answer => `${escapeEncoding(answer)}`),
 		};
 		return newObj;
 	});
 }
 
-function escapeEncoding(text) {
+function escapeEncoding(text: string) {
 	return new DOMParser().parseFromString(text, 'text/html').body.textContent;
 }
 
