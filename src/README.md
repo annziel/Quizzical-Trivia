@@ -39,12 +39,3 @@ In `CSS`, I figured out how to combine multiple images into a background. I also
 | --- | ---|
 | <img max-width="350px" alt="Game on a computer" src="../public/computer_start.png">| <img max-width="350px" alt="Game on a mobile device" src="../public/mobile_start.png"> |
 | <img max-width="350px" alt="Game summary on a computer" src="../public/computer_results.png">| <img max-width="350px" alt="Game summary on a mobile device" src="../public/mobile_results.png"> |
-
-<style>
-table th:first-of-type {
-    width: 70%;
-}
-table th:nth-of-type(2) {
-    width: 30%;
-}
-</style>
