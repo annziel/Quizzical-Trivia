@@ -3,13 +3,13 @@
 @font-face {
   font-family: "Karla";
   src: local("Karla"), local("Karla"),
-    url("Karla-Regular.ttf");
+    url("/Karla-Regular.ttf");
   font-weight: normal;
 }
 @font-face {
   font-family: "Karla";
   src: local("Karla"), local("Karla"),
-    url("Karla-Bold.ttf");
+    url("/Karla-Bold.ttf");
   font-weight: bold;
 }
 
