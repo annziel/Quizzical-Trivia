@@ -1,45 +1,37 @@
 import React from 'react';
-import getLoader from "./Loader.jsx"
+import Loader from "./Loader.jsx"
 import type { Question } from "../getNewQuestions"
 
 
 export default function Questions({ appState, questions, setQuestions }) {
 
-	function handleAnswerClick(e: React.MouseEvent<HTMLElement>, id: number) {
-		const target = e.target as HTMLElement;
-		// cleanup of previously selected answers
-		const elementsToToggle = document.querySelectorAll(`button[data-questionid='${target.dataset.questionid}']`);
-		elementsToToggle.forEach(el => el.classList.remove("selected-answer"));
-		// add a class to the selected answer
-		target.classList.add("selected-answer");
-		// updating the questions State
+	function handleAnswerClick(answer: string, id: number) {
 		setQuestions((prevQuestions: Question[]) => prevQuestions.map(q => {
 			if (q.id === id) {
-				return { ...q, selected_answer: target.dataset.answer };
+				return { ...q, selected_answer: answer };
 			}
 			return q;
 		}));
 	}
 
 	function getButtonClass(question: Question, answer: string) {
-		if (appState === "gameEnd") {
+		if (appState === "quiz" && answer === question.selected_answer) {
+			return "answer-option selected-answer";
+		}
+		if (appState === "results") {
 			if (answer === question.correct_answer) {
 				return "answer-option correct-answer";
 			} else if (answer === question.selected_answer) {
 				return "answer-option selected-wrong-answer";
-			} else {
-				return "answer-option";
-			}
-		} else {
-			return "answer-option";
-		};
+			} 
+		}
+		return "answer-option";
 	}
-
 
 	return (
 		<div className="questions-container">
-			{appState === "loading" && getLoader()}
-			{ (appState === "gamePlay" || appState === "gameEnd") && 
+			{appState === "loading" && <Loader />}
+			{ (appState === "quiz" || appState === "results") && 
 				questions.map((q: Question) => (
 					<div className="question-box" key={q.id} id={`${q.id}`}>
 						<h2 className="question-text">{q.question}</h2>
@@ -48,10 +40,8 @@ export default function Questions({ appState, questions, setQuestions }) {
 								<button
 									key={answer}
 									className={getButtonClass(q, answer)}
-									disabled={appState === "gameEnd" ? true : false}
-									onClick={(event) => handleAnswerClick(event, q.id)}
-									data-questionid={q.id}
-									data-answer={answer}
+									disabled={appState === "results" ? true : false}
+									onClick={ () => handleAnswerClick(answer, q.id)} 
 								>
 									{answer}
 								</button>
@@ -64,4 +54,3 @@ export default function Questions({ appState, questions, setQuestions }) {
 		</div>
 	);
 }
- 

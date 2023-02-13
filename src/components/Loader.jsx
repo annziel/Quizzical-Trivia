@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function getLoader() {
+export default function Loader() {
 	return (
 		<div className="lds-ellipsis">
 			<div />

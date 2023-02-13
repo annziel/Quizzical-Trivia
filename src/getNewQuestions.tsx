@@ -11,53 +11,38 @@ export type Question = {
 }
 
 export async function getNewQuestions() {
-	const apiData = await getApi();
-	const questionsWithoutEncoding = getDataWithoutEncoding(apiData.results);
-	return prepareToRender(questionsWithoutEncoding);
-}
-
-async function getApi() {
 	const res = await fetch('https://opentdb.com/api.php?amount=5&type=multiple');
-	return await res.json();
+	const apiData =  await res.json();
+	return getOrganizedData(apiData.results);
 }
 
-function getDataWithoutEncoding(data: Question[]) {
-	return data.map(obj => {
-		const newObj = {
-			...obj,
-			question: `${escapeEncoding(obj.question)}`,
-			correct_answer: `${escapeEncoding(obj.correct_answer)}`,
-			incorrect_answers: obj.incorrect_answers.map(answer => `${escapeEncoding(answer)}`),
-		};
-		return newObj;
-	});
+function getOrganizedData(data: Question[]) {
+	return data.map( (obj, index) => ({
+		...obj,
+		// change to escape the HTML encoding
+		question: escapeEncoding(obj.question),
+		// added to create the shuffled array of all possible answers without the HTML encoding
+		shuffled_answers: shuffle([
+			...obj.incorrect_answers.map(answer => escapeEncoding(answer)),
+			escapeEncoding(obj.correct_answer)
+		]),
+		// added for answer checking
+		selected_answer: "",
+		// added for key and id properties
+		id: index + 1,
+	}));
 }
 
 function escapeEncoding(text: string) {
-	return new DOMParser().parseFromString(text, 'text/html').body.textContent;
-}
-
-function prepareToRender(array: Question[]) {
-	return array.map((obj, index) => {
-		const newObj = {
-			...obj,
-			// making the array of possible answers and shuffle it
-			shuffled_answers: getShuffledAnswers([...obj.incorrect_answers, obj.correct_answer]),
-			// for answer checking
-			selected_answer: "",
-			// for key and id properties
-			id: index + 1,
-		};
-		return newObj;
-	});
+	return new DOMParser().parseFromString(text, 'text/html').body.textContent + '';
 }
 
 // randomize array using Durstenfeld shuffle algorithm
-function getShuffledAnswers(array: string[]) {
+function shuffle(array: string[]) {
 	const newArray = [...array];
 	for (let i = newArray.length - 1; i > 0; i--) {
 		const rand = Math.floor(Math.random() * (i + 1));
-		[newArray[i], newArray[rand]] = [newArray[rand], newArray[i]];
+		[ newArray[i], newArray[rand]] = [newArray[rand], newArray[i] ];
 	}
 	return newArray;
 }

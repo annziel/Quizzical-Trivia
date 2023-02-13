@@ -2,7 +2,7 @@ import React from 'react';
 
 export default function Home({ setAppState }) {
 	function handleGameStart() {
-		setAppState("gamePlay");
+		setAppState("quiz");
 	}
 
 	return (
