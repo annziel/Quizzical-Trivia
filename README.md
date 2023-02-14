@@ -4,7 +4,7 @@
 
 This App asks users five random questions, each with four possible answers. The player's task is to choose the correct one and can change their mind anytime before clicking the "check answers" button. After that, scored points and the correct answers are displayed on the screen.
 
-**[Check your knowledge](#) and have fun!** 😉
+**[Check your knowledge](https://annziel.github.io/quizzical-trivia/) and have fun!** 😉
 
 ## What did I learn during the course?
 
